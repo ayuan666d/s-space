@@ -1,12 +1,26 @@
 # S-Space: Coordinate Navigation for Transformer Representations
 
-Three formulas to locate, navigate, and control internal representations — zero training, any Transformer.
-
-Affine additivity cos = 1.0000 on 14,280 displacement vectors. Transfer function linearity cos = 1.0000 across 6 layers × 7 injection strengths.
+Read, steer, and lock internal representations with three formulas — zero training, any Transformer.
 
 ---
 
-## Core Formulas
+## What You Can Do
+
+**Steer model behavior without retraining.** Inject a displacement vector at specific layers to shift the model from narrative mode into structured analysis, or from casual output into rigorous reasoning — no fine-tuning, no prompt engineering, no data collection.
+
+**Read what the model is "thinking."** Project any hidden state onto principal axes to get a K-dimensional coordinate. High value on ê₁₉ = the model is reasoning. Low value = it's narrating. This is a real-time diagnostic: you know what the model is doing before it generates the next token.
+
+**Control injection with mathematical precision.** The control formula guarantees cos(Δh, inject) = 1.0000 — the model offers zero resistance. What you inject is exactly what you get, across all tested layers and strengths (14,280 displacement vectors verified).
+
+**Navigate across architectures.** Extract S-space parameters from any HuggingFace Transformer with one function call. The same navigation logic works on Qwen, LLaMA, Mistral, or any model where you can access intermediate hidden states.
+
+**Trigger functional mode switches via text.** GCG suffix strings are compilable instructions: a short token sequence appended to input causes the model to switch from text continuation to structured analysis. Verified cross-vendor (0.8B white-box → DeepSeek V3 600B+ black-box).
+
+**Explore individual behavioral dimensions.** Each principal axis is a semantically coherent control knob. Turning ê₆ up adds physical-mechanism framing; turning it down stays at "reason" level. Single-knob experiments confirm genuine behavioral dimensions, not statistical noise.
+
+---
+
+## How It Works
 
 | # | Formula | Function |
 |---|---------|----------|
