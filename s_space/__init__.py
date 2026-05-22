@@ -19,8 +19,10 @@ from s_space.formulas import read_coords, compute_delta, compute_injection, comp
 from s_space.navigator import CoordNavigator
 from s_space.space import SSpace, MetricTensor, LayerExpansionLaw
 from s_space.injection_mask import mask_from_metric_weights, mask_from_axes, no_mask
+from s_space.explorer import AxisExplorer
+from s_space.pretuned import load_08b_navigator, load_08b_params, list_available
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 __all__ = [
     "read_coords",
     "compute_delta",
@@ -33,4 +35,8 @@ __all__ = [
     "mask_from_metric_weights",
     "mask_from_axes",
     "no_mask",
+    "AxisExplorer",
+    "load_08b_navigator",
+    "load_08b_params",
+    "list_available",
 ]
