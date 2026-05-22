@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# PyTorch large files (use GitHub Release instead)
+*.pt
+!data/*.pt
+
+# Keep small data files
+!data/coord_nav_params_sample.pt
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Model weights
+*.bin
+*.safetensors
+*.gguf
+
+# Large experiment outputs
+outputs/
+results/
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Training checkpoints
+checkpoints/
+ckpts/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment
+.env
+.venv/
+venv/
+env/
