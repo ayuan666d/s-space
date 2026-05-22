@@ -1,8 +1,12 @@
 """
-Cross-Architecture Live Validation with Local Qwen2.5-0.5B-Instruct
+Cross-Architecture Live Validation with Local Qwen3-0.6B
 
 This is REAL validation: extract PCA from the model, inject with three formulas,
 and compare baseline vs navigated outputs.
+
+Usage:
+    python validate_live_cross_arch.py
+    python validate_live_cross_arch.py --model Qwen/Qwen2.5-1.5B
 """
 import torch
 import sys
@@ -12,16 +16,19 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 logger = logging.getLogger(__name__)
 
-MODEL_PATH = r"C:\Users\39183\CodeBuddy\Claw\Qwen\Qwen3-0___6B"
+# Default: use a local model if available, otherwise download from HuggingFace
+DEFAULT_MODEL = "Qwen/Qwen3-0.6B"
 
-def main():
+def main(model_name=None):
     from transformers import AutoModelForCausalLM, AutoTokenizer
     from s_space.extraction import extract_pca_params
     from s_space.formulas import read_coords, compute_delta, compute_injection
 
+    model_name = model_name or DEFAULT_MODEL
+
     print(f"""
 ╔══════════════════════════════════════════════════════════════╗
-║  S-Space LIVE VALIDATION on Qwen3-0.6B (REAL MODEL)          ║
+║  S-Space LIVE VALIDATION on {model_name:<35s}║
 ║  This is REAL data, not synthetic.                           ║
 ╚══════════════════════════════════════════════════════════════╝
 """)
@@ -30,10 +37,10 @@ def main():
     print(f"Device: {device}")
 
     # ── Step 1: Extract PCA params from the model ──
-    print("\n[Step 1] Extracting PCA parameters from Qwen2.5-0.5B-Instruct...")
+    print(f"\n[Step 1] Extracting PCA parameters from {model_name}...")
     t0 = time.time()
     params = extract_pca_params(
-        model_name=MODEL_PATH,
+        model_name=model_name,
         K=50,
         n_samples=30,  # quick extraction for validation
         device=device,
@@ -56,13 +63,13 @@ def main():
               f"top3={top3:.1f}%, top10={top10:.1f}%, total_gk={mw.sum().item():.2f}")
 
     # ── Step 2: Load model for generation ──
-    print(f"\n[Step 2] Loading Qwen2.5-0.5B-Instruct for generation...")
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, trust_remote_code=True)
+    print(f"\n[Step 2] Loading {model_name} for generation...")
+    tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
     model = AutoModelForCausalLM.from_pretrained(
-        MODEL_PATH,
+        model_name,
         trust_remote_code=True,
         torch_dtype=torch.float16 if device == 'cuda' else torch.float32,
         device_map=device if device == 'cuda' else None,
@@ -278,5 +285,11 @@ def main():
 
 
 if __name__ == '__main__':
-    success = main()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--model', type=str, default=None,
+                        help=f'Model to validate on (default: {DEFAULT_MODEL})')
+    args = parser.parse_args()
+
+    success = main(args.model)
     sys.exit(0 if success else 1)

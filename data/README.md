@@ -10,15 +10,23 @@ This directory contains pre-extracted S-space parameters for Qwen3.5-0.8B.
 | `reasoning_consensus.pt` | ~10KB | d_consensus reasoning directions (7 layers) |
 | `thinking_dirs.pt` | ~10KB | Thinking direction vectors (for selection masks) |
 | `cer_type_classifier.pt` | 1.3MB | Type classifier weights |
-| `pure_route_v2.pt` | ~30KB | Sparse selection route vectors (historically "lottery masks") |
+| `pure_route_v2.pt` | ~30KB | Sparse selection route vectors |
 
 ## How to Extract Your Own
 
 If you want to apply S-Space to a different model, you don't need these files —
-you can extract parameters from any Transformer using the `extraction/` scripts:
+you can extract parameters from any Transformer using the extraction CLI:
 
 ```bash
-python extraction/extract_pca.py --model_name Qwen/Qwen3-1.7B --layers 3,7,19 --K 100
-python extraction/extract_consensus.py --model_name Qwen/Qwen3-1.7B --layers 3,7,19
-python extraction/extract_thinking.py --model_name Qwen/Qwen3-1.7B --layers 3,7,19
+# Extract from any HuggingFace model
+python -m s_space.extraction --model Qwen/Qwen3-1.7B --K 100 --layers 3,7,19
+
+# Or use the Python API
+python -c "
+from s_space.extraction import extract_pca_params, save_params
+params = extract_pca_params('Qwen/Qwen3-1.7B', K=100)
+save_params(params, 'pca_params.pt')
+"
 ```
+
+See `python -m s_space.extraction --help` for all options.

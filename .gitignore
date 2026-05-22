@@ -11,9 +11,6 @@ build/
 *.pt
 !data/*.pt
 
-# Keep small data files
-!data/coord_nav_params_sample.pt
-
 # IDE
 .vscode/
 .idea/
@@ -53,3 +50,7 @@ ckpts/
 .venv/
 venv/
 env/
+
+# Debug / local-only files
+push_*.txt
+msg_filter.*

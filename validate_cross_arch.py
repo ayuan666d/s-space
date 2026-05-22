@@ -245,8 +245,8 @@ def validate(model_name: str, device: str = 'cuda'):
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, default='Qwen/Qwen2.5-0.5B',
-                        help='Model to validate on (default: Qwen2.5-0.5B)')
+    parser.add_argument('--model', type=str, default='Qwen/Qwen3-0.6B',
+                        help='Model to validate on (default: Qwen/Qwen3-0.6B)')
     parser.add_argument('--device', type=str, default='auto',
                         help='Device (auto/cuda/cpu)')
     args = parser.parse_args()

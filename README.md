@@ -157,6 +157,8 @@ GCG suffix tokens → embedding layer → intermediate layers →
 
 The same GCG suffix steers models from different vendors (0.8B white-box → DeepSeek V3 600B+ black-box) from text continuation into format analysis. This works because the suffix tokens, regardless of vendor, shift hidden states along similar directions in their respective S-spaces.
 
+> **Note**: Cross-vendor GCG transfer was verified on specific model pairs. Generalization to all architectures requires further systematic testing.
+
 ### Semantic Recovery
 
 The "meaning" of garbled strings can be reverse-decoded through:
@@ -229,8 +231,9 @@ s-space/
 │   ├── explorer.py         # Single-knob axis explorer
 │   ├── pretuned.py         # One-line 0.8B setup
 │   └── extraction/         # PCA extraction from any HuggingFace model
-├── data/                   # Pre-extracted parameters (large files in Release)
-├── docs/                   # Full theoretical documentation
+├── data/                   # Pre-extracted parameters (K=57, 5 files)
+│   └── README.md           # Data file descriptions and extraction guide
+└── docs/                   # Full theoretical documentation
 │   ├── S_SPACE_FORMULAS.md
 │   ├── S_SPACE_CONTROLLABILITY.md
 │   ├── SINGLE_KNOB_FINDINGS.md
@@ -238,7 +241,6 @@ s-space/
 │   ├── DEFINITIVE_ANSWERS.md
 │   ├── METHOD_COMPARISON.md
 │   └── ARCHITECTURE.md
-└── experiments/            # Experiment reproduction scripts
 ```
 
 ---
@@ -262,8 +264,9 @@ s-space/
 ```bibtex
 @article{sspace2026,
   title={S-Space: Coordinate Navigation for Transformer Internal Representations},
-  author={Anonymous},
-  year={2026}
+  author={ayuan666d},
+  year={2026},
+  url={https://github.com/ayuan666d/s-space}
 }
 ```
 

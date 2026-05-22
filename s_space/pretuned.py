@@ -5,6 +5,10 @@ This module provides easy access to pre-extracted S-space parameters
 for the Qwen2.5-0.8B model. Users can directly use these without
 running their own PCA extraction.
 
+The data files are stored in the project's data/ directory.
+This module automatically resolves the correct path whether installed
+via pip or used from the source repository.
+
 Usage:
     from s_space.pretuned import load_08b_navigator
 
@@ -18,7 +22,7 @@ Or with consensus enhancement:
     result = nav.navigate(hidden_states, base_r=0.10)
 
 Available data:
-    - PCA parameters (ê_k, g_k) for 21 layers, K=100
+    - PCA parameters (ê_k, g_k) for 21 layers, K=57
     - Reasoning consensus directions (d_consensus) for 7 layers
     - Thinking direction vectors for injection masking
     - Pure route vectors for navigation

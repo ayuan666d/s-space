@@ -262,12 +262,16 @@ if __name__ == '__main__':
                         help='Path to PCA params .pt file')
     args = parser.parse_args()
 
-    # Default: use the existing fullsample params
+    # Default: use the pre-extracted params in data/
     if args.params is None:
-        default_path = r"C:\Users\39183\Desktop\lottery-subspace-release\coord_nav_params_fullsample.pt"
-        if not __import__('pathlib').Path(default_path).exists():
-            default_path = r"C:\Users\39183\Desktop\lottery-subspace-release\coord_nav_params.pt"
-        args.params = default_path
+        from pathlib import Path
+        repo_root = Path(__file__).parent
+        default_path = repo_root / "data" / "coord_nav_params_K100.pt"
+        if not default_path.exists():
+            print(f"Default params not found at {default_path}")
+            print("Usage: python validate_formulas.py --params /path/to/pca_params.pt")
+            sys.exit(1)
+        args.params = str(default_path)
 
     print(f"Using params: {args.params}")
     validate_three_formulas(args.params)
