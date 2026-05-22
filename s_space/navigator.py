@@ -97,15 +97,14 @@ class CoordNavigator:
         self.principal_dirs = params['principal_dirs']   # {layer: (K, d_model)}
         self.metric_weights = params['metric_weights']   # {layer: (K,)}
 
-        # K dimension (auto-detect from data)
-        if 'K' in params:
-            self.K = params['K']
-        else:
-            first = next(iter(self.principal_dirs))
-            self.K = self.principal_dirs[first].shape[0]
+        # K dimension (always detect from actual tensor shape, not stored K)
+        # The stored K may be the target K during extraction, but the actual
+        # number of principal components can differ (e.g., variance threshold
+        # may yield fewer components than the target K).
+        first_layer = next(iter(self.principal_dirs))
+        self.K = self.principal_dirs[first_layer].shape[0]
 
         # d_model (auto-detect from data)
-        first_layer = next(iter(self.principal_dirs))
         self.d_model = self.principal_dirs[first_layer].shape[1]
 
         # Inject layers (auto-detect from available PCA data)
