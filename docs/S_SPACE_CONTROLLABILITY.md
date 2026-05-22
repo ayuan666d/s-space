@@ -12,9 +12,10 @@
 所有成功的注入（cerebellum_v2, navigator, 残差循环, 二阶段突破）都使用：
 
 ```python
-inject(L) = type_dir(L) × lottery_mask(L) × strength × sc
+inject(L) = type_dir(L) × selection_mask(L) × strength × sc
 # strength = 0.03 ~ 0.05（手调）
 # sc = 24 / n_layers（层均分系数）
+# 注: selection_mask 历史上称 lottery_mask
 ```
 
 **已知问题**：
@@ -57,7 +58,7 @@ inject(L) = type_dir(L) × lottery_mask(L) × strength × sc
 
 **这意味着增益完全由两个因素决定**：
 1. 层数分配系数 sc（你注入几层就除以几）
-2. 该层 type_dir 在彩票维度上的投影范数 |dir_masked(L)|
+2. 该层 type_dir 在选择维度上的投影范数 |dir_masked(L)|
 
 ### 发现 3：手调的层间失衡
 
@@ -97,7 +98,7 @@ $$|\Delta h(L)| = sc \times |dir\_masked(L)| \times \alpha(L)$$
 
 其中：
 - $sc = n_{total} / n_{inject}$ = 层数分配系数
-- $|dir\_masked(L)| = |type\_dir(L) \times lottery\_mask(L)|$ = 彩票投影范数（预计算常量）
+- $|dir\_masked(L)| = |type\_dir(L) \times selection\_mask(L)|$ = 稀疏选择投影范数（预计算常量，历史称"彩票投影范数"）
 - $\alpha(L)$ = 注入强度
 
 ### 可控注入公式（Controllability Formula）
@@ -114,15 +115,15 @@ $$\boxed{\alpha(L) = \frac{r \times |h(L)|}{sc \times |dir\_masked(L)|}}$$
 
 将 α(L) 代入注入方程：
 
-$$inject(L) = type\_dir(L) \times lottery\_mask(L) \times r \times \frac{|h(L)|}{|dir\_masked(L)|} \times sc \times \frac{1}{sc}$$
+$$inject(L) = type\_dir(L) \times selection\_mask(L) \times r \times \frac{|h(L)|}{|dir\_masked(L)|} \times sc \times \frac{1}{sc}$$
 
-$$= type\_dir(L) \times lottery\_mask(L) \times r \times \frac{|h(L)|}{|dir\_masked(L)|}$$
+$$= type\_dir(L) \times selection\_mask(L) \times r \times \frac{|h(L)|}{|dir\_masked(L)|}$$
 
 $$= \hat{d}_{masked}(L) \times r \times |h(L)|$$
 
-其中 $\hat{d}_{masked}(L) = type\_dir(L) \times lottery\_mask(L) / |dir\_masked(L)|$ 是彩票维度上的归一化方向。
+其中 $\hat{d}_{masked}(L) = type\_dir(L) \times selection\_mask(L) / |dir\_masked(L)|$ 是稀疏选择维度上的归一化方向（历史称"彩票维度"）。
 
-**物理含义**：注入 = 彩票方向 × 目标比例 × 当前状态范数。就这么简单。
+**物理含义**：注入 = 选择方向 × 目标比例 × 当前状态范数。就这么简单。
 
 ---
 
@@ -141,7 +142,7 @@ $$= \hat{d}_{masked}(L) \times r \times |h(L)|$$
 
 ### 问题 2 → 类型自适应 ✅
 
-公式包含 $|dir\_masked(L)|$，不同类型在不同层的彩票投影强度不同，α 自动调整：
+公式包含 $|dir\_masked(L)|$，不同类型在不同层的选择维度投影强度不同，α 自动调整：
 
 - 叙事类 L3：|dir_masked| 较大 → α 较小（不需要太强）
 - 因果类 L19：|dir_masked| 较小 → α 较大（需要更强的信号）
@@ -187,14 +188,14 @@ $$\text{小脑方程}: inject(l) = P_l \cdot \Delta_{needed}(l) \cdot scale(l)$$
 
 可控注入公式描述的是**注入的力学**：
 
-$$inject(L) = type\_dir(L) \times lottery\_mask(L) \times \alpha(L) \times sc$$
+$$inject(L) = type\_dir(L) \times selection\_mask(L) \times \alpha(L) \times sc$$
 
 ### 关键区别
 
 | 维度 | S-Space 公式 | 可控注入公式 |
 |------|-------------|-------------|
 | 方向来源 | 质心差 Δ = target_centroid - current | type_dir（好回答方向） |
-| 作用空间 | 全 1024 维 | 15 彩票维度 |
+| 作用空间 | 全 1024 维 | 15 稀疏选择维度 |
 | 与输出的关系 | 推到类型坐标 ≠ 改善输出 | 推好回答方向 = 改善输出 |
 | cos(type_dir, 质心差) | — | ≈ -0.1 ~ 0.18（几乎正交） |
 
@@ -254,7 +255,7 @@ $$inject(L) = type\_dir(L) \times lottery\_mask(L) \times \alpha(L) \times sc$$
 import torch
 
 type_dirs = torch.load('type_dirs.pt')      # 14类 × 21层
-lottery_masks = torch.load('pure_route_v2.pt')  # 彩票维度
+selection_masks = torch.load('pure_route_v2.pt')  # 稀疏选择维度（历史称"彩票维度"）
 
 # 预计算每层每类型的 |dir_masked|
 dir_masked_norms = {}
@@ -263,8 +264,8 @@ for type_name, td in type_dirs.items():
     for layer, vec in td.items():
         d = vec.float()
         d = d / d.norm()  # 归一化
-        if layer in lottery_masks:
-            d = d * lottery_masks[layer]  # 应用彩票 mask
+        if layer in selection_masks:
+            d = d * selection_masks[layer]  # 应用稀疏选择 mask
         dir_masked_norms[type_name][layer] = d.norm().item()
 
 # ====== 运行时（每次注入） ======
@@ -285,8 +286,8 @@ def make_injection(type_name, layers, h_norms, r=0.10):
         alpha = compute_alpha(type_name, l, h_norms[l], r, len(layers))
         d = td[l].float()
         d = d / d.norm()
-        if l in lottery_masks:
-            d = d * lottery_masks[l]
+        if l in selection_masks:
+            d = d * selection_masks[l]
         injection[l] = (d * alpha * sc).numpy()
     return injection
 

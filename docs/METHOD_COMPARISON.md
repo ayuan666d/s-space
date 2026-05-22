@@ -21,7 +21,7 @@
 | 版本 | 核心思路 | 训练方式 | 效果 | 问题 |
 |------|---------|---------|------|------|
 | v1-v5 | 纯hidden state对齐 | 只优化hidden state距离 | 6/20 → 13/20 | 模型崩坏，输出质量下降 |
-| v6 | hidden state only | 只在彩票维度上对齐 | 1/20 (5%) ❌ | 完全失败！LM loss被忽略 |
+| v6 | hidden state only | 只在选择维度上对齐 | 1/20 (5%) ❌ | 完全失败！LM loss被忽略 |
 | **v7** | **联合训练** | **0.7×LM_loss + 0.3×HS_loss** | **待验证** | **需要微调权重** |
 | v8 | - | - | - | - |
 
@@ -34,7 +34,7 @@
 total_loss = beta_lm * lm_loss + beta_hs * (hs_loss / 2)
 # beta_lm=0.7, beta_hs=0.3
 
-# 只训练彩票维度
+# 只训练选择维度（历史称"彩票维度"）
 for k, tp in target_params.items():
     tp['param'].grad.data[~tp['mask']] = 0  # 梯度掩码
 ```
@@ -64,7 +64,7 @@ for ep in range(200):
         loss_l = 0
         for idx in range(len(qa)):
             raw = qa[idx][l].float().to(d)
-            ld = ldim[l]  # 15个彩票维度
+            ld = ldim[l]  # 15个选择维度
             dl = src[l].float()[ld]
             
             # 只推15维
@@ -84,7 +84,7 @@ for ep in range(200):
 
 **优势：**
 - ✅ 每层独立优化，互不干扰
-- ✅ 稀疏注入（只推15维）
+- ✅ 稀疏注入（只推15维选择维度）
 - ✅ COS自省（最大化与方向的相似度）
 
 **劣势：**
