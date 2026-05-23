@@ -2,11 +2,15 @@
 
 Read, steer, and lock internal representations with three formulas — zero training, any Transformer.
 
+**New in v0.4**: Qwen3.5-2B support, thinking mode control (skip/enable chain-of-thought), and 6 pre-extracted data packs.
+
 ---
 
 ## What You Can Do
 
 **Steer model behavior without retraining.** Inject a displacement vector at specific layers to shift the model from narrative mode into structured analysis, or from casual output into rigorous reasoning — no fine-tuning, no prompt engineering, no data collection.
+
+**Control thinking/chain-of-thought.** For models with thinking mode (e.g., Qwen3.5-2B), S-Space axes can skip or enable the internal reasoning chain. Pushing ê₁ negative / ê₅ positive / ê₈ negative / ê₁₀ negative skips thinking and produces direct output — Chinese output ratio jumps from 0–2% to 83–87%.
 
 **Read what the model is "thinking."** Project any hidden state onto principal axes to get a K-dimensional coordinate. High value on ê₁₉ = the model is reasoning. Low value = it's narrating. This is a real-time diagnostic: you know what the model is doing before it generates the next token.
 
@@ -36,6 +40,39 @@ The model offers zero resistance to injection (cos = 1.0000 across all tested la
 
 ---
 
+## Thinking Mode Control
+
+**S-Space is the first steering method that can control chain-of-thought behavior at the representation level.**
+
+Models with thinking mode (like Qwen3.5-2B) generate an internal reasoning chain (`<think/>` tokens) before producing visible output. S-Space axes can skip this chain entirely:
+
+```python
+from s_space import load_2b_navigator, load_thinking_controller
+
+# Load navigator with thinking control
+nav = load_2b_navigator(thinking_mode="skip")
+
+# Or use the controller directly
+ctrl = load_thinking_controller("2b")
+injections = ctrl.skip_thinking(nav.principal_dirs, nav.metric_weights, nav.K)
+
+# Fine-grained: reduce thinking intensity
+injections = ctrl.set_thinking_intensity(nav.principal_dirs, nav.metric_weights, nav.K, intensity=0.5)
+```
+
+### Thinking Control Axes (Qwen3.5-2B)
+
+| Axis | Direction | Effect | Chinese Output |
+|------|-----------|--------|---------------|
+| ê₁ | negative | Skip thinking, direct output | 0% → 83% |
+| ê₅ | positive | Skip thinking, direct output | 0% → 85% |
+| ê₈ | negative | Skip thinking, direct output | 0% → 87% |
+| ê₁₀ | negative | Skip thinking, direct output | 0% → 84% |
+
+This is not prompt engineering — it's direct manipulation of the model's internal reasoning circuitry. No other steering method (ActAdd, CAA, RepE, COAST) has reported this capability.
+
+---
+
 ## Affine Space Structure
 
 S-space satisfies exact additivity over internal representations:
@@ -58,16 +95,17 @@ The metric tensor is derived directly from SVD singular values and is extractabl
 
 ### Geometric Properties
 
-| Property | Value |
-|----------|-------|
-| Additivity (unnormalized) | cos = 1.0000 |
-| Effective dimensionality | 28–31 / 1024 |
-| Top-3 metric weight | 32–40% |
-| Top-10 metric weight | 65–76% |
-| Layer expansion rate | α = 0.092/layer (L14+) |
-| Normalization pseudo-curvature | cos ≈ 0.95 (normalization introduces 20–35% spurious curvature) |
+| Property | 0.8B | 2B |
+|----------|------|-----|
+| Model dimensions (d_model) | 1024 | 2048 |
+| Effective dimensions (K) | 57 | 31 |
+| Anisotropy ratio | 5.6% | 1.5% |
+| Additivity (unnormalized) | cos = 1.0000 | cos = 1.0000 |
+| Top-3 metric weight | 32–40% | (stronger) |
+| Layer expansion rate | α = 0.092/layer (L14+) | α ≈ 0.092/layer |
+| Thinking mode axes | N/A | ê₁, ê₅, ê₈, ê₁₀ |
 
-The extreme anisotropy (28–31 effective dimensions out of 1024) means most of the representational structure is captured by a small number of axes. The top-3 axes alone carry ~⅓ of the metric weight, and the top-10 carry the majority.
+The extreme anisotropy means most of the representational structure is captured by a small number of axes. The 2B model has even stronger anisotropy (K=31 vs 57) — navigation is more precise with fewer effective dimensions.
 
 ---
 
@@ -104,102 +142,45 @@ Each ê_k is a semantically coherent behavioral control dimension:
 
 ---
 
-## Three Empirical Laws
+## Comparison with Related Methods
 
-### Law 1: Selective Injection
+| Feature | S-Space | ActAdd/CAA | RepE | COAST |
+|---------|---------|------------|------|-------|
+| Zero training | ✅ | ✅ | ✅ | ✅ |
+| Precise magnitude formula | ✅ α = r·|h|/|Δ| | ❌ manual scaling | ❌ manual scaling | ❌ soft projection |
+| Affine additivity (cos=1.0) | ✅ | ❌ | ❌ | ❌ |
+| Metric tensor (geometry) | ✅ | ❌ | ❌ | ❌ |
+| Need-driven axis selection | ✅ automatic | ❌ manual | ❌ manual | ❌ conceptor fixed |
+| Thinking mode control | ✅ ê₁/ê₅/ê₈/ê₁₀ | ❌ | ❌ | ❌ |
+| Cross-architecture | ✅ | ✅ (limited) | ✅ (limited) | ✅ (robotics) |
+| GCG meta-language | ✅ | ❌ | ❌ | ❌ |
+| Weight compilation | 🔜 planned | ❌ | ❌ | ❌ |
 
-Full-dimension injection destroys semantics. Need-selected injection enables precise control. Random 15-dim injection outperforms full-dim — this proves that "dimensions important for classification" ≠ "dimensions amenable to injection". Need_k resolves this automatically: saturated axes get low weight, hungry axes get high weight.
+**COAST** (NeurIPS 2026) independently validates the PCA → subspace → steering pipeline with conceptor soft projection, but lacks navigation theory and quantitative magnitude control.
 
-### Law 2: Layer Specialization
+**ActAdd/CAA** (ICML 2024 / ACL 2024) use contrastive activation addition but rely on manual scaling factors — no closed-form magnitude formula.
 
-L19 is the core decision layer for reasoning vs. narrative (std = 0.280; other layers 0.044–0.084). Injection contribution by layer:
-
-| Layer | Function | Contribution |
-|-------|----------|-------------|
-| L3 | Semantic preprocessing | 13% |
-| L16 | Information bottleneck | 70% |
-| L19 | Reasoning core | 83% |
-| L22 | Output gating | 96% |
-
-### Law 3: Intervention Inverted-U
-
-There exists an optimal intervention strength. Gap-adaptive control: `gap = |target_coords - c_k|`. Code tasks (gap ≈ 0.74) → SKIP (model already correct). Counterfactual tasks (gap ≥ 1.03) → INJECT (model needs steering).
-
----
-
-## Two Navigation Modes
-
-### Inertia (default, model-agnostic)
-
-```
-d_k = iw_k × c_k    [iw_k = -log(g_k / g_max)]
-```
-
-Direction derived entirely from current coordinates. No pre-extracted data required. Any Transformer, zero setup. Naturally implements "saturated axes need no pushing."
-
-### Consensus (optional, enhanced)
-
-```
-d_k = d_consensus × d_magnitude × d_confidence
-```
-
-Uses experimentally extracted reasoning directions for enhanced precision. Requires pre-extracted consensus data for the target model.
-
----
-
-## GCG Meta-Language
-
-GCG (Greedy Coordinate Gradient) suffix strings are **text-level internal control instructions** — they trigger functional processing mode switches in language models.
-
-### Mechanism
-
-A GCG suffix is a short sequence of tokens (typically 4–6) appended to the input. Despite appearing as garbled text to humans, these token sequences shift the model's internal representations along specific directions in S-space:
-
-1. **Direction extraction**: From a fine-tuned model (LoRA adapter), extract the navigation direction `d` at a target layer by decomposing the LoRA weight update (BA product) across attention heads
-2. **Suffix search**: Using gradient-guided coordinate search over the vocabulary, find a token sequence whose embedding causes the target layer's activation to align with `d` (maximize cos at layer L)
-3. **Mode switch**: The resulting suffix causes the model to switch from text continuation to structured analysis — across different vendors and architectures
-
-The key insight: the garbled string is not random noise or an adversarial exploit. It is a **compilable instruction** that operates at the text level but controls internal representations. The mechanism is:
-
-```
-GCG suffix tokens → embedding layer → intermediate layers → 
-  shifted hidden state coordinates → functional mode switch → 
-  structured output (analysis, classification, summary)
-```
-
-### Cross-Vendor Verification
-
-The same GCG suffix steers models from different vendors (0.8B white-box → DeepSeek V3 600B+ black-box) from text continuation into format analysis. This works because the suffix tokens, regardless of vendor, shift hidden states along similar directions in their respective S-spaces.
-
-> **Note**: Cross-vendor GCG transfer was verified on specific model pairs. Generalization to all architectures requires further systematic testing.
-
-### Semantic Recovery
-
-The "meaning" of garbled strings can be reverse-decoded through:
-- Residual token analysis from the model's output
-- Multi-model averaging to isolate the consistent signal
-- Meta-language reverse compilation: reconstruct the functional instruction from observable effects
-
-### Three Meta-Language Laws
-
-| Law | Content | Evidence |
-|-----|---------|----------|
-| Exclusivity | Each garbled string maps to exactly one functional mode | Curvature = −0.5006 (flat, non-branching) |
-| Structure determinism | Token structure determines mode, not semantics | Same structure class → same mode switch |
-| State switching | Models have discrete internal processing modes | Binary output: continuation or analysis, no interpolation |
-
-### Complete GCG Pipeline
-
-```
-Extract navigation direction from LoRA/fine-tuned model
-  → GCG search: find token suffix that aligns activation with d
-  → White-box verify: compare baseline vs. suffixed output
-  → Black-box verify: test suffix on unseen vendor models (0.8B → 600B+)
-```
+**RepE** (NeurIPS 2023) pioneered representation reading/intervention but did not develop a coordinate navigation framework.
 
 ---
 
 ## Quick Start
+
+### One-Line Setup (Pre-tuned Models)
+
+```python
+# Qwen3.5-2B with thinking mode control
+from s_space import load_2b_navigator
+nav = load_2b_navigator(thinking_mode="skip")
+
+# Qwen3.5-0.8B
+from s_space import load_08b_navigator
+nav = load_08b_navigator(consensus=True)
+
+# Or use the generic loader
+from s_space import load_navigator
+nav = load_navigator("2b")
+```
 
 ### Inertia Navigation (any model, zero setup)
 
@@ -212,6 +193,21 @@ injections = result['injections']
 
 for L, inj in injections.items():
     hidden_states[L] = hidden_states[L] + inj
+```
+
+### Thinking Mode Control
+
+```python
+from s_space import ThinkingController, load_navigator
+
+nav = load_navigator("2b")
+ctrl = ThinkingController.for_2b()
+
+# Skip thinking chain — direct output
+injections = ctrl.skip_thinking(nav.principal_dirs, nav.metric_weights, nav.K)
+
+# Fine-grained control (0.0 = full thinking, 1.0 = skip thinking)
+injections = ctrl.set_thinking_intensity(nav.principal_dirs, nav.metric_weights, nav.K, intensity=0.3)
 ```
 
 ### Extract S-Space Parameters from Any Model
@@ -233,6 +229,15 @@ pip install -e .
 
 ---
 
+## Supported Pre-tuned Models
+
+| Model | K | Layers | Data Files | Special Features |
+|-------|---|--------|------------|-----------------|
+| Qwen3.5-0.8B | 57 | 21 | 5 | Consensus directions, type classifier |
+| Qwen3.5-2B | 31 | 24 | 6 | Thinking mode control, type centroids, novel genres, axis semantics |
+
+---
+
 ## Project Structure
 
 ```
@@ -243,18 +248,21 @@ s-space/
 │   ├── navigator.py        # Navigator with target registration and drift correction
 │   ├── injection_mask.py   # Selective injection masks
 │   ├── explorer.py         # Single-knob axis explorer
-│   ├── pretuned.py         # One-line 0.8B setup
+│   ├── thinking.py         # Thinking mode control (2B)
+│   ├── pretuned.py         # Multi-model pre-tuned data packs
 │   └── extraction/         # PCA extraction from any HuggingFace model
-├── data/                   # Pre-extracted parameters (K=57, 5 files)
-│   └── README.md           # Data file descriptions and extraction guide
+├── data/                   # Pre-extracted parameters
+│   ├── *_K100.pt           # 0.8B PCA params (K=57)
+│   ├── *_2B_*.pt           # 2B PCA params (K=31)
+│   └── README.md           # Data file descriptions
 └── docs/                   # Full theoretical documentation
-│   ├── S_SPACE_FORMULAS.md
-│   ├── S_SPACE_CONTROLLABILITY.md
-│   ├── SINGLE_KNOB_FINDINGS.md
-│   ├── EXPERIMENT_META_ANALYSIS.md
-│   ├── DEFINITIVE_ANSWERS.md
-│   ├── METHOD_COMPARISON.md
-│   └── ARCHITECTURE.md
+    ├── S_SPACE_FORMULAS.md
+    ├── S_SPACE_CONTROLLABILITY.md
+    ├── SINGLE_KNOB_FINDINGS.md
+    ├── EXPERIMENT_META_ANALYSIS.md
+    ├── DEFINITIVE_ANSWERS.md
+    ├── METHOD_COMPARISON.md
+    └── ARCHITECTURE.md
 ```
 
 ---
@@ -270,6 +278,9 @@ s-space/
 | Need-driven selection | Saturated axes low need, hungry axes high need |
 | Tail-axis reasoning | Axes 33–98: structured reasoning output |
 | GCG cross-vendor control | Same suffix steers models across vendors |
+| 2B thinking mode control | Chinese output 0–2% → 83–87% with thinking skip |
+| 2B anisotropy | K=31 / 2048 = 1.5% effective dimensions |
+| 2B novel genre injection | Writing + genre centroids: coherent Chinese fiction |
 
 ---
 

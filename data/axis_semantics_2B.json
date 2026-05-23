@@ -1,0 +1,152 @@
+{
+  "e_0": {
+    "axis": 0,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** 为什么天空是蓝色的 (Why is the sky blue?)\n    *   **Subject:** Physics/Optics (specifically Rayleigh scattering).\n    *   **Target Audience:** General audience (needs to",
+    "positive_changed": true,
+    "negative_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh Scattering (瑞利散射).\n    *",
+    "negative_changed": true,
+    "consensus_dir": -1.0
+  },
+  "e_1": {
+    "axis": 1,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** 为什么天空是蓝色的 (Why is the sky blue?)\n    *   **Subject:** Physics/Optics (specifically Rayleigh Scattering).\n    *   **Target Audience:** General audience (needs",
+    "positive_changed": true,
+    "negative_output": "<think>\n\n</think>\n\n天空呈现蓝色，主要归因于地球大气层对太阳光中不同波长光的**选择性散射**现象，这一物理过程被称为**瑞利散射（Rayleigh Scattering）**。\n\n以下是具体的科学解释：\n\n1.  **太阳光由多种颜色组成**\n    太阳光（可见光谱）实际上包含了红、橙、黄、绿",
+    "negative_changed": true,
+    "consensus_dir": -1.0
+  },
+  "e_2": {
+    "axis": 2,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh Scattering (瑞利散射).\n    *",
+    "positive_changed": true,
+    "negative_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** 为什么天空是蓝色的 (Why is the sky blue?)\n    *   **Subject:** Physics/Optics (specifically Rayleigh Scattering).\n    *   **Target Audience:** General audience (needs",
+    "negative_changed": true,
+    "consensus_dir": -1.0
+  },
+  "e_3": {
+    "axis": 3,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Goal:** Provide a clear, accurate, and scientifically grounded explanation.\n\n2.",
+    "positive_changed": true,
+    "negative_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** 为什么天空是蓝色的？ (Why is the sky blue?)\n    *   **Subject:** Physics/Optics (specifically Rayleigh scattering).\n    *   **Target Audience:** General audience (needs",
+    "negative_changed": true,
+    "consensus_dir": -1.0
+  },
+  "e_4": {
+    "axis": 4,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的。)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_changed": true,
+    "negative_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "negative_changed": false,
+    "consensus_dir": -1.0
+  },
+  "e_5": {
+    "axis": 5,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\n\n</think>\n\n天空呈现蓝色，主要归因于一种名为**瑞利散射（Rayleigh Scattering）**的光学现象。要理解这个过程，我们需要从光的组成和大气层的结构两个角度来思考：\n\n### 1. 光的组成：白光包含所有颜色\n太阳光（白光）实际上是由多种颜色的光混合而成的，包括红色、橙色、黄色、",
+    "positive_changed": true,
+    "negative_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh Scattering (瑞利散射).\n    *",
+    "negative_changed": true,
+    "consensus_dir": 1.0
+  },
+  "e_6": {
+    "axis": 6,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Subject:** Physics/Optics (specifically Rayleigh Scattering).\n    *   **Target Audience:** General audience seeking",
+    "positive_changed": true,
+    "negative_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** 为什么天空是蓝色的 (Why is the sky blue?)\n    *   **Subject:** Physics/Optics (specifically Rayleigh Scattering).\n    *   **Target Audience:** General audience (needs",
+    "negative_changed": true,
+    "consensus_dir": -1.0
+  },
+  "e_7": {
+    "axis": 7,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Goal:** Provide a clear, accurate, and scientifically grounded explanation.\n\n2.",
+    "positive_changed": true,
+    "negative_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** 为什么天空是蓝色的 (Why is the sky blue?)\n    *   **Subject:** Physics/Optics (specifically Rayleigh Scattering).\n    *   **Target Audience:** General audience (needs",
+    "negative_changed": true,
+    "consensus_dir": 1.0
+  },
+  "e_8": {
+    "axis": 8,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Subject:** Physics/Optics (specifically Rayleigh Scattering).\n    *   **Target Audience:** General audience (",
+    "positive_changed": true,
+    "negative_output": "<think>\n\n</think>\n\n天空呈现蓝色，主要归功于一种名为**瑞利散射（Rayleigh Scattering）**的光学现象。这一过程发生在地球大气层中，具体原因可以分解为以下几个步骤：\n\n### 1. 太阳光由多种颜色组成\n太阳光本身是一个包含所有可见光谱颜色的复合光，包括红色、橙色、黄色、绿色、蓝色、�",
+    "negative_changed": true,
+    "consensus_dir": -1.0
+  },
+  "e_9": {
+    "axis": 9,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** 为什么天空是蓝色的 (Why is the sky blue?)\n    *   **Subject:** Physics/Optics (specifically Rayleigh Scattering).\n    *   **Target Audience:** General audience (needs",
+    "positive_changed": true,
+    "negative_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "negative_changed": false,
+    "consensus_dir": 1.0
+  },
+  "e_10": {
+    "axis": 10,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh Scattering (瑞利散射).\n    *",
+    "positive_changed": true,
+    "negative_output": "<think>\n\n</think>\n\n天空呈现蓝色，是一个经典的物理现象，主要由**瑞利散射（Rayleigh Scattering）**引起。要理解这一现象，我们需要从光的组成和大气层的结构两个角度来思考：\n\n### 1. 光的组成：白光的三原色\n太阳光（太阳辐射）并不是单一颜色的光，而是由红、橙、黄、绿",
+    "negative_changed": true,
+    "consensus_dir": -1.0
+  },
+  "e_11": {
+    "axis": 11,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** 为什么天空是蓝色的 (Why is the sky blue?)\n    *   **Subject:** Physics/Optics (specifically Rayleigh Scattering).\n    *   **Target Audience:** General audience (needs",
+    "positive_changed": true,
+    "negative_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "negative_changed": false,
+    "consensus_dir": 1.0
+  },
+  "e_12": {
+    "axis": 12,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的。)\n    *   **Subject:** Physics/Astronomy/Optics (Rayleigh Scattering).\n    *   **Target Audience:** General audience",
+    "positive_changed": true,
+    "negative_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** 为什么天空是蓝色的 (Why is the sky blue?)\n    *   **Subject:** Physics/Optics (specifically Rayleigh Scattering).\n    *   **Target Audience:** General audience (needs",
+    "negative_changed": true,
+    "consensus_dir": 1.0
+  },
+  "e_13": {
+    "axis": 13,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** 为什么天空是蓝色的 (Why is the sky blue?)\n    *   **Subject:** Physics/Optics (specifically Rayleigh Scattering).\n    *   **Target Audience:** General audience (needs",
+    "positive_changed": true,
+    "negative_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh Scattering (瑞利散射).\n    *",
+    "negative_changed": true,
+    "consensus_dir": 1.0
+  },
+  "e_14": {
+    "axis": 14,
+    "prompt": "解释为什么天空是蓝色的。",
+    "baseline": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh scattering (瑞利散射).\n    *   **",
+    "positive_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** 为什么天空是蓝色的？ (Why is the sky blue?)\n    *   **Subject:** Physics/Optics (specifically Rayleigh Scattering).\n    *   **Target Audience:** General audience (",
+    "positive_changed": true,
+    "negative_output": "<think>\nHere's a thinking process that leads to the explanation of why the sky is blue:\n\n1.  **Analyze the Request:**\n    *   **Question:** Why is the sky blue? (解释为什么天空是蓝色的。)\n    *   **Language:** Chinese.\n    *   **Key Concept:** Rayleigh Scattering (瑞利散射).\n    *",
+    "negative_changed": true,
+    "consensus_dir": 1.0
+  }
+}

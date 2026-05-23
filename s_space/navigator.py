@@ -212,13 +212,15 @@ class CoordNavigator:
                 dc = rc['d_consensus'][source_L]
                 dm = rc['d_magnitude'][source_L]
                 dco = rc['d_confidence'][source_L]
-                K_old = dc.shape[0]
+                K_src = min(dc.shape[0], self.K)
+                K_dm = min(dm.shape[0], self.K)
+                K_dco = min(dco.shape[0], self.K)
                 self.d_consensus[L] = torch.zeros(self.K)
                 self.d_magnitude[L] = torch.ones(self.K) * 0.08
                 self.d_confidence[L] = torch.ones(self.K) * 0.3
-                self.d_consensus[L][:K_old] = dc
-                self.d_magnitude[L][:K_old] = dm
-                self.d_confidence[L][:K_old] = dco
+                self.d_consensus[L][:K_src] = dc[:K_src]
+                self.d_magnitude[L][:K_dm] = dm[:K_dm]
+                self.d_confidence[L][:K_dco] = dco[:K_dco]
             else:
                 self.d_consensus[L] = torch.zeros(self.K)
                 self.d_magnitude[L] = torch.ones(self.K) * 0.08
